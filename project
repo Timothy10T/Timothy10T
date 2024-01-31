@@ -1,0 +1,61 @@
+import sqlite3
+from datetime import datetime
+
+#connect to the sqlite database
+conn=
+sqlite3.connect('mortuary_databse.db')
+cursor = conn.cursor()
+
+#create a table for deceased individuals
+cursor.execute('''
+CREATE TABLE IF NOT EXISTS deceased(
+id INTEGER PRIMARY KEY AUTOINCREMENT,
+name TEXT NOT NULL,
+next_of_kin TEXT NOT NULL,
+cause_of_death TEXT,
+date_of_birth TEXT,
+age INTEGER,
+next_of_kin_phone TEXT
+)
+''')
+conn.commit()
+
+#Function to add  a new deceased individual
+def add_deceased():
+name = input("Enter the name:")
+next_of_kin = input("Enter the next of kin:")
+cause _of_death =input("Enter the cause of death:")
+date_of_birth =input("Enter the date of birth(YYYY_MM_DD):")
+age =int(input("Enter the next of kin's phone number:")
+
+#Insert the data into the database
+cursor.execute('''
+    INSERT INTO deceased  (name,next_of_kin,cause_of_death,date _of_birth,age,next_of_kin_phone)
+VALUES(?,?,?,?,?,?)
+''',(name,next_of_kin,cause_of_death,date _of_birth,age,next_of_kin_phone))
+conn.commit()
+print("Deceased individual added successfully,"")
+
+#Function to search for a deceased individual
+def search_deceased():
+search_name = input ("Enter  the name to search:")
+
+#search for the deceased individual by name
+cursor.execute('''
+        SELECT *FROM deceased WHERE name LIKE?
+''', (f'%{search_name}%',))
+reults = cursor.fetchall()
+if not  results:
+   print("No matching records found.")
+else:
+for result in results
+print(result)
+
+#you can add more fuctions for updating, deleting and viewing all records
+
+#Example usage
+add_deceased()
+search_deceased()
+
+#close the database connection
+conn.close()
